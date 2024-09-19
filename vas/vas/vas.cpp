@@ -2,10 +2,9 @@
 #include <fstream>
 using namespace std;
 
-struct Pipe
-{
+struct Pipe {
     string name = "None";
-    float length = 0.0;
+    double length = 0.0;
     int diameter = 0;
     bool repair = false;
 };
@@ -14,7 +13,7 @@ int check_int(int& int_data)
 
 {
     cin >> int_data;
-    while (cin.fail()  cin.peek() != '\n'  int_data <= 0)
+    while (cin.fail() || cin.peek() != '\n' || int_data <= 0)
 
     {
         cin.clear();
@@ -27,7 +26,7 @@ int check_int(int& int_data)
 double check_double(double& double_data)
 {
     cin >> double_data;
-    while (cin.fail()  cin.peek() != '\n'  double_data <= 0)
+    while (cin.fail() || cin.peek() != '\n' || double_data <= 0)
 
     {
         cin.clear();
@@ -44,7 +43,7 @@ bool check_bool(bool& bool_data)
 
 {
     cin >> bool_data;
-    while (cin.fail()  cin.peek() != '\n')
+    while (cin.fail() || cin.peek() != '\n')
     {
         cin.clear();
         cin.ignore(100000, '\n');
@@ -55,21 +54,42 @@ bool check_bool(bool& bool_data)
     return bool_data;
 }
 
-//Pipe AddPipe()
-//{
-//    Pipe new_pipe;
-//    cout << endl << "Adding a new pipe..." << endl;
-//    cout << "Enter the name of the pipe: ";
-//    cin.ignore();
-//    getline(cin, new_pipe.pipe_name);
-//    cout << "Enter the length of the pipe (in metres): ";
-//    check_double(new_pipe.pipe_length);
-//    cout << "Enter the pipe diameter (in millimetres): ";
-//    check_int(new_pipe.pipe_diameter);
-//    cout << "Enter the repair status: ";
-//    check_bool(new_pipe.pipe_repair);
-//    return new_pipe;
-//}
+Pipe AddPipe()
+
+{
+    Pipe new_pipe;
+    cout << endl << "Adding a new pipe..." << endl;
+    cout << "Enter the name of the pipe: ";
+    cin >> new_pipe.name;
+
+    cout << "Enter the length of the pipe: ";
+    check_double(new_pipe.length);
+
+    cout << "Enter the pipe diameter: ";
+    check_int(new_pipe.diameter);
+
+    cout << "Enter the repair status: ";
+    check_bool(new_pipe.repair);
+
+    return new_pipe;
+
+}
+
+void PrintAddPipe(Pipe& new_pipe)
+
+{
+    cout << endl << "Info about your pipe..." << endl;
+    if (new_pipe.name == "None")
+    {
+        cout << "No pipes available!\n";
+    }
+    else
+    {
+        cout << "Name: " << new_pipe.name << "\tLength: " << new_pipe.length
+
+            << "\tDiameter: " << new_pipe.diameter << "\tRepair: " << new_pipe.repair << endl;
+    }
+}
 
 
 
@@ -100,9 +120,10 @@ int main()
 
         switch (option)
         {
-        case 1:
+        case 1: //add pipe
         {
-            cout << "iwed" << endl;
+            pipe0 = AddPipe();
+            PrintAddPipe(pipe0);
             break;
         }
         case 2:
