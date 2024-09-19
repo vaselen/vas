@@ -10,6 +10,51 @@ struct Pipe
     bool repair = false;
 };
 
+int check_int(int& int_data)
+
+{
+    cin >> int_data;
+    while (cin.fail()  cin.peek() != '\n'  int_data <= 0)
+
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "\nPlease, enter an int type > 0\n";
+        cin >> int_data;
+    }
+    return int_data;
+}
+double check_double(double& double_data)
+{
+    cin >> double_data;
+    while (cin.fail()  cin.peek() != '\n'  double_data <= 0)
+
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "\nPlease, enter a double type > 0\n";
+        cin >> double_data;
+
+    }
+    return double_data;
+
+}
+
+bool check_bool(bool& bool_data)
+
+{
+    cin >> bool_data;
+    while (cin.fail()  cin.peek() != '\n')
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "\nPlease, enter a bool type\n";
+        cin >> bool_data;
+
+    }
+    return bool_data;
+}
+
 //Pipe AddPipe()
 //{
 //    Pipe new_pipe;
