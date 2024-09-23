@@ -3,64 +3,71 @@
 using namespace std;
 
 struct Pipe {
-    string name = "None";
+    string namepipe = "None";
     double length = 0.0;
     int diameter = 0;
     bool repair = false;
 };
 
-int check_int(int& int_data)
+struct Station
+{
+    string namecs = "None";
+    int workshops = 0;
+    int act_workshops = 0;
+    int efficiency = 0;
+};
+
+int check_int(int& i)
 
 {
-    cin >> int_data;
-    while (cin.fail() || cin.peek() != '\n' || int_data <= 0)
+    cin >> i;
+    while (cin.fail() || cin.peek() != '\n' || i <= 0)
 
     {
         cin.clear();
         cin.ignore(100000, '\n');
-        cout << "\nPlease, enter an int type > 0\n";
-        cin >> int_data;
+        cout << "\nEnter an int type > 0\n";
+        cin >> i;
     }
-    return int_data;
+    return i;
 }
-double check_double(double& double_data)
+double check_double(double& d)
 {
-    cin >> double_data;
-    while (cin.fail() || cin.peek() != '\n' || double_data <= 0)
+    cin >> d;
+    while (cin.fail() || cin.peek() != '\n' || d <= 0)
 
     {
         cin.clear();
         cin.ignore(100000, '\n');
-        cout << "\nPlease, enter a double type > 0\n";
-        cin >> double_data;
+        cout << "\nEnter a double type > 0\n";
+        cin >> d;
 
     }
-    return double_data;
+    return d;
 
 }
 
-bool check_bool(bool& bool_data)
-
+bool check_bool(bool& b)
 {
-    cin >> bool_data;
+    cin >> b;
     while (cin.fail() || cin.peek() != '\n')
     {
         cin.clear();
         cin.ignore(100000, '\n');
-        cout << "\nPlease, enter a bool type\n";
-        cin >> bool_data;
+        cout << "\nEnter a bool type\n";
+        cin >> b;
 
     }
-    return bool_data;
+    return b;
 }
 
 Pipe AddPipe()
 
 {
     Pipe new_pipe;
-    cout << endl << "Adding a new pipe..." << endl;
+    cout << endl << "Adding a new pipe:" << endl;
     cout << "Enter the name of the pipe: ";
-    cin >> new_pipe.name;
+    cin >> new_pipe.namepipe;
 
     cout << "Enter the length of the pipe: ";
     check_double(new_pipe.length);
@@ -72,22 +79,57 @@ Pipe AddPipe()
     check_bool(new_pipe.repair);
 
     return new_pipe;
+}
 
+Station AddStation()
+
+{
+    Station new_station;
+    cout << endl << "Adding a new station:" << endl;
+    cout << "Enter the name of the station: ";
+    cin >> new_station.namecs;
+
+    cout << "Enter the number of workshops: ";
+    check_int(new_station.workshops);
+
+    cout << "Enter the number of working workshops: ";
+    check_int(new_station.act_workshops);
+
+    cout << "Enter the station efficiency as a %: ";
+    check_int(new_station.efficiency);
+
+    return new_station;
 }
 
 void PrintAddPipe(Pipe& new_pipe)
 
 {
-    cout << endl << "Info about your pipe..." << endl;
-    if (new_pipe.name == "None")
+    cout << endl << "Info about your pipe:" << endl;
+    if (new_pipe.namepipe == "None")
     {
-        cout << "No pipes available!\n";
+        cout << "No pipe available!\n";
     }
     else
     {
-        cout << "Name: " << new_pipe.name << "\tLength: " << new_pipe.length
+        cout << "Name: " << new_pipe.namepipe << "\tLength: " << new_pipe.length
 
             << "\tDiameter: " << new_pipe.diameter << "\tRepair: " << new_pipe.repair << endl;
+    }
+}
+
+void PrintAddStation(Station& new_station)
+
+{
+    cout << endl << "Info about your station:" << endl;
+    if (new_station.namecs == "None")
+    {
+        cout << "No station available!\n";
+    }
+    else
+    {
+        cout << "Name: " << new_station.namecs << "\tNumber of workshops: " << new_station.workshops
+
+            << "\tNumber of working workshops: " << new_station.act_workshops << "\tEfficiency: " << new_station.efficiency << endl;
     }
 }
 
@@ -96,8 +138,8 @@ void PrintAddPipe(Pipe& new_pipe)
 int main()
 {
     Pipe pipe0;
-
-    int option;
+    Station station0;
+    int command;
     while (true) {
         cout << "Choose command" << endl
             << "1. Add pipe" << endl
@@ -108,8 +150,8 @@ int main()
             << "6. Save" << endl
             << "7. Download" << endl
             << "8. Exit " << endl;
-        cin >> option;
-        if (cin.fail() || option < 1 || option > 8)
+        cin >> command;
+        if (cin.fail() || command < 1 || command > 8)
         {
             cout << " There is no such command" << endl;
             cin.clear();
@@ -118,7 +160,7 @@ int main()
         }
 
 
-        switch (option)
+        switch (command)
         {
         case 1: //add pipe
         {
@@ -126,9 +168,10 @@ int main()
             PrintAddPipe(pipe0);
             break;
         }
-        case 2:
+        case 2: //add station
         {
-            cout << "jdku" << endl;
+            station0 = AddStation();
+            PrintAddStation(station0);
             break;
         }
         case 3:
