@@ -18,7 +18,6 @@ struct Station
 };
 
 int check_int(int& i)
-
 {
     cin >> i;
     while (cin.fail() || cin.peek() != '\n' || i <= 0)
@@ -75,8 +74,21 @@ int check_int_efficiency(int& e)
     return e;
 }
 
-Pipe AddPipe()
+/*int check_workshops(int& i)
+{
+    cin >> act;
+    while (cin.fail() || cin.peek() != '\n' || act > workshops)
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "\n Enter the number of working workshops <= the number of workshops:\n";
+        cin >> act;
 
+    }
+    return i;
+}*/
+
+Pipe AddPipe()
 {
     Pipe new_pipe;
     cout << endl << "Adding a new pipe:" << endl;
@@ -118,14 +130,13 @@ void RepairPipe(Pipe& new_pipe)
     }
     else
     {
-        new_pipe.repair = !new_pipe.repair;
-        cout << endl << "You have changed repair status!";
+        cout << "Enter the new repair status: ";
+        check_bool(new_pipe.repair);
         PrintAddPipe(new_pipe);
     }
 }
 
 Station AddStation()
-
 {
     Station new_station;
     cout << endl << "Adding a new station:" << endl;
@@ -137,17 +148,14 @@ Station AddStation()
 
     cout << "Enter the number of working workshops: ";
     cin >> new_station.act_workshops;
-    while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops > new_station.workshops)
-
+    /*check_int(new_station.act_workshops);*/
+    while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops < 0  || new_station.act_workshops > new_station.workshops)
     {
         cin.clear();
         cin.ignore(100000, '\n');
-        cout << "\n Enter the number of working workshops <= the number of workshops:\n";
+        cout << "\nEnter the number of working workshops <= the number of workshops:\n";
         cin >> new_station.act_workshops;
-
     }
-    //return new_station.act_workshops;
-    //check_int(new_station.act_workshops);
 
     cout << "Enter the station efficiency as a %: ";
     check_int_efficiency(new_station.efficiency);
@@ -170,7 +178,25 @@ void PrintAddStation(Station& new_station)
     }
 }
 
-
+void RepairStation(Station& new_station)
+{
+    if (new_station.namecs == "None")
+    {
+        cout << "No station available!\n";
+    }
+    else
+    {
+        cout << "Enter the new number of working workshops: ";
+        while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops < 0 || new_station.act_workshops > new_station.workshops)
+        {
+            cin.clear();
+            cin.ignore(100000, '\n');
+            cout << "\nEnter the number of working workshops <= the number of workshops:\n";
+            cin >> new_station.act_workshops;
+        }
+        PrintAddStation(new_station);
+    }
+}
 
 int main()
 {
@@ -190,7 +216,7 @@ int main()
         cin >> command;
         if (cin.fail() || command < 1 || command > 8)
         {
-            cout << " There is no such command" << endl;
+            cout << "There is no such command" << endl;
             cin.clear();
             cin.ignore(1000, '\n');
             continue;
@@ -224,7 +250,7 @@ int main()
         }
         case 5:
         {
-            cout << "slwo" << endl;
+            RepairStation(station0);
             break;
         }
         case 6:
