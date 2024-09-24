@@ -61,6 +61,20 @@ bool check_bool(bool& b)
     return b;
 }
 
+int check_int_efficiency(int& e)
+{
+    cin >> e;
+    while (cin.fail() || cin.peek() != '\n' || (e < 0) || (e >= 100))
+
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "\nEnter an int type >= 0 and <= 100: \n";
+        cin >> e;
+    }
+    return e;
+}
+
 Pipe AddPipe()
 
 {
@@ -81,28 +95,7 @@ Pipe AddPipe()
     return new_pipe;
 }
 
-Station AddStation()
-
-{
-    Station new_station;
-    cout << endl << "Adding a new station:" << endl;
-    cout << "Enter the name of the station: ";
-    cin >> new_station.namecs;
-
-    cout << "Enter the number of workshops: ";
-    check_int(new_station.workshops);
-
-    cout << "Enter the number of working workshops: ";
-    check_int(new_station.act_workshops);
-
-    cout << "Enter the station efficiency as a %: ";
-    check_int(new_station.efficiency);
-
-    return new_station;
-}
-
 void PrintAddPipe(Pipe& new_pipe)
-
 {
     cout << endl << "Info about your pipe:" << endl;
     if (new_pipe.namepipe == "None")
@@ -117,8 +110,52 @@ void PrintAddPipe(Pipe& new_pipe)
     }
 }
 
-void PrintAddStation(Station& new_station)
+void RepairPipe(Pipe& new_pipe)
+{
+    if (new_pipe.namepipe == "None")
+    {
+        cout << "No pipe available!\n";
+    }
+    else
+    {
+        new_pipe.repair = !new_pipe.repair;
+        cout << endl << "You have changed repair status!";
+        PrintAddPipe(new_pipe);
+    }
+}
 
+Station AddStation()
+
+{
+    Station new_station;
+    cout << endl << "Adding a new station:" << endl;
+    cout << "Enter the name of the station: ";
+    cin >> new_station.namecs;
+
+    cout << "Enter the number of workshops: ";
+    check_int(new_station.workshops);
+
+    cout << "Enter the number of working workshops: ";
+    cin >> new_station.act_workshops;
+    while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops > new_station.workshops)
+
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "\n Enter the number of working workshops <= the number of workshops:\n";
+        cin >> new_station.act_workshops;
+
+    }
+    //return new_station.act_workshops;
+    //check_int(new_station.act_workshops);
+
+    cout << "Enter the station efficiency as a %: ";
+    check_int_efficiency(new_station.efficiency);
+
+    return new_station;
+}
+
+void PrintAddStation(Station& new_station)
 {
     cout << endl << "Info about your station:" << endl;
     if (new_station.namecs == "None")
@@ -129,7 +166,7 @@ void PrintAddStation(Station& new_station)
     {
         cout << "Name: " << new_station.namecs << "\tNumber of workshops: " << new_station.workshops
 
-            << "\tNumber of working workshops: " << new_station.act_workshops << "\tEfficiency: " << new_station.efficiency << endl;
+            << "\tNumber of working workshops: " << new_station.act_workshops << "\tEfficiency: " << new_station.efficiency << "%" << endl;
     }
 }
 
@@ -176,12 +213,13 @@ int main()
         }
         case 3:
         {
-            cout << "jeiw" << endl;
+            PrintAddPipe(pipe0);
+            PrintAddStation(station0);
             break;
         }
         case 4:
         {
-            cout << "slwo" << endl;
+            RepairPipe(pipe0);
             break;
         }
         case 5:
