@@ -5,18 +5,18 @@ using namespace std;
 
 struct Pipe 
 {
-    string namepipe;
-    double length;
-    int diameter;
+    string namepipe="None";
+    double length=0;
+    int diameter=0;
     bool repair = false;
 };
 
 struct Station
 {
-    string namecs;
-    int workshops;
-    int act_workshops;
-    int efficiency;
+    string namecs="None";
+    int workshops=0;
+    int act_workshops=0;
+    int efficiency=0;
 };
 
 int check_int(int& i)
@@ -90,7 +90,7 @@ void AddPipe(Pipe& new_pipe)
 void PrintAddPipe(Pipe& new_pipe)
 {
     cout << endl << "Info about your pipe:" << endl;
-    if (new_pipe.namepipe == "")
+    if (new_pipe.namepipe == "None")
     {
         cout << "No pipe available!\n";
     }
@@ -104,7 +104,7 @@ void PrintAddPipe(Pipe& new_pipe)
 
 void RepairPipe(Pipe& new_pipe)
 {
-    if (new_pipe.namepipe == "")
+    if (new_pipe.namepipe == "None")
     {
         cout << "No pipe available!\n";
     }
@@ -176,6 +176,30 @@ void RepairStation(Station& new_station)
     }
 }
 
+void in_file(ofstream& fout, const Pipe& pipe, const Station& station) {
+    if (pipe.namepipe == "None") {
+        cout << "There is no data about the pipe to write to the file\n";
+    }
+    else {
+        fout << pipe.namepipe << endl;
+        fout << pipe.length << endl;
+        fout << pipe.diameter << endl;
+        fout << pipe.repair << endl;
+        cout << "The data about the pipe is written\n";
+    }
+    if (station.namecs == "None") {
+        cout << "There is no data about the station to write to the file\n";
+    }
+    else {
+        fout << station.namecs << endl;
+        fout << station.workshops << endl;
+        fout << station.act_workshops << endl;
+        fout << station.efficiency << endl;
+        cout << "The data about the station is written\n";
+    }
+}
+
+
 int main()
 {
     Pipe pipe0;
@@ -233,7 +257,12 @@ int main()
         }
         case 6:
         {
-            cout << "slwo" << endl;
+            ofstream fout;
+            fout.open("vivod.txt", ios::out);
+            if (fout.is_open()) {
+                in_file(fout, pipe0, station0);
+                fout.close();
+            }
             break;
         }
         case 7:
