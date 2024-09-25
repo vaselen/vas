@@ -1,27 +1,28 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
-struct Pipe {
-    string namepipe = "None";
-    double length = 0.0;
-    int diameter = 0;
+struct Pipe 
+{
+    string namepipe;
+    double length;
+    int diameter;
     bool repair = false;
 };
 
 struct Station
 {
-    string namecs = "None";
-    int workshops = 0;
-    int act_workshops = 0;
-    int efficiency = 0;
+    string namecs;
+    int workshops;
+    int act_workshops;
+    int efficiency;
 };
 
 int check_int(int& i)
 {
     cin >> i;
     while (cin.fail() || cin.peek() != '\n' || i <= 0)
-
     {
         cin.clear();
         cin.ignore(100000, '\n');
@@ -34,16 +35,13 @@ double check_double(double& d)
 {
     cin >> d;
     while (cin.fail() || cin.peek() != '\n' || d <= 0)
-
     {
         cin.clear();
         cin.ignore(100000, '\n');
         cout << "\nEnter a double type > 0\n";
         cin >> d;
-
     }
     return d;
-
 }
 
 bool check_bool(bool& b)
@@ -55,7 +53,6 @@ bool check_bool(bool& b)
         cin.ignore(100000, '\n');
         cout << "\nEnter a bool type\n";
         cin >> b;
-
     }
     return b;
 }
@@ -64,7 +61,6 @@ int check_int_efficiency(int& e)
 {
     cin >> e;
     while (cin.fail() || cin.peek() != '\n' || (e < 0) || (e >= 100))
-
     {
         cin.clear();
         cin.ignore(100000, '\n');
@@ -74,26 +70,12 @@ int check_int_efficiency(int& e)
     return e;
 }
 
-/*int check_workshops(int& i)
+void AddPipe(Pipe& new_pipe)
 {
-    cin >> act;
-    while (cin.fail() || cin.peek() != '\n' || act > workshops)
-    {
-        cin.clear();
-        cin.ignore(100000, '\n');
-        cout << "\n Enter the number of working workshops <= the number of workshops:\n";
-        cin >> act;
-
-    }
-    return i;
-}*/
-
-Pipe AddPipe()
-{
-    Pipe new_pipe;
     cout << endl << "Adding a new pipe:" << endl;
     cout << "Enter the name of the pipe: ";
-    cin >> new_pipe.namepipe;
+    cin >> ws;
+    getline(cin, new_pipe.namepipe);
 
     cout << "Enter the length of the pipe: ";
     check_double(new_pipe.length);
@@ -103,14 +85,12 @@ Pipe AddPipe()
 
     cout << "Enter the repair status: ";
     check_bool(new_pipe.repair);
-
-    return new_pipe;
 }
 
 void PrintAddPipe(Pipe& new_pipe)
 {
     cout << endl << "Info about your pipe:" << endl;
-    if (new_pipe.namepipe == "None")
+    if (new_pipe.namepipe == "")
     {
         cout << "No pipe available!\n";
     }
@@ -124,7 +104,7 @@ void PrintAddPipe(Pipe& new_pipe)
 
 void RepairPipe(Pipe& new_pipe)
 {
-    if (new_pipe.namepipe == "None")
+    if (new_pipe.namepipe == "")
     {
         cout << "No pipe available!\n";
     }
@@ -136,31 +116,28 @@ void RepairPipe(Pipe& new_pipe)
     }
 }
 
-Station AddStation()
+void AddStation(Station& new_station)
 {
-    Station new_station;
     cout << endl << "Adding a new station:" << endl;
     cout << "Enter the name of the station: ";
-    cin >> new_station.namecs;
+    cin >> ws;
+    getline(cin, new_station.namecs);
 
     cout << "Enter the number of workshops: ";
     check_int(new_station.workshops);
 
     cout << "Enter the number of working workshops: ";
     cin >> new_station.act_workshops;
-    /*check_int(new_station.act_workshops);*/
     while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops < 0  || new_station.act_workshops > new_station.workshops)
     {
         cin.clear();
         cin.ignore(100000, '\n');
-        cout << "\nEnter the number of working workshops <= the number of workshops:\n";
+        cout << "\nThe number of working workshops must be >=0 and <= the number of workshops:\n";
         cin >> new_station.act_workshops;
     }
 
     cout << "Enter the station efficiency as a %: ";
     check_int_efficiency(new_station.efficiency);
-
-    return new_station;
 }
 
 void PrintAddStation(Station& new_station)
@@ -187,11 +164,12 @@ void RepairStation(Station& new_station)
     else
     {
         cout << "Enter the new number of working workshops: ";
+        cin >> new_station.act_workshops;
         while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops < 0 || new_station.act_workshops > new_station.workshops)
         {
             cin.clear();
             cin.ignore(100000, '\n');
-            cout << "\nEnter the number of working workshops <= the number of workshops:\n";
+            cout << "\nThe number of working workshops must be >=0 and <= the number of workshops:\n";
             cin >> new_station.act_workshops;
         }
         PrintAddStation(new_station);
@@ -227,28 +205,28 @@ int main()
         {
         case 1: //add pipe
         {
-            pipe0 = AddPipe();
+            AddPipe(pipe0);
             PrintAddPipe(pipe0);
             break;
         }
         case 2: //add station
         {
-            station0 = AddStation();
+            AddStation(station0);
             PrintAddStation(station0);
             break;
         }
-        case 3:
+        case 3: //show all objects
         {
             PrintAddPipe(pipe0);
             PrintAddStation(station0);
             break;
         }
-        case 4:
+        case 4: //repair pipe
         {
             RepairPipe(pipe0);
             break;
         }
-        case 5:
+        case 5: //repair station
         {
             RepairStation(station0);
             break;
