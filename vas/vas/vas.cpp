@@ -199,6 +199,69 @@ void in_file(ofstream& fout, const Pipe& pipe, const Station& station) {
     }
 }
 
+void from_file_pipe(ifstream& fin, Pipe& pipe) {
+    string line;
+    while (getline(fin, line)) {
+        if (line.find("pipe", 0) == 0) {
+            cout << "The data about the pipe was read from the file" << endl;
+            cout << "Info about your pipe: " << endl;
+            getline(fin, pipe.namepipe);
+            cout << "Name: " << pipe.namepipe << endl;
+            fin >> pipe.length;
+            cout << "Length:" << pipe.length << endl;
+            fin >> pipe.diameter;
+            cout << "Diameter:" << pipe.diameter << endl;
+            fin >> pipe.repair;
+            cout << "Repair:" << pipe.repair << endl;
+        }
+        else {
+            cout << "There is no data about the pipe in the file" << endl;
+        }
+        /*if (line.find("station", 0) == 0) {
+            cout << "The data about the station was read from the file" << endl;
+            cout << "Info about your station: " << endl;
+            getline(fin, station.namecs);
+            cout << "Name: " << station.namecs << endl;
+            fin >> station.workshops;
+            cout << "Number of workshops: " << station.workshops << endl;
+            fin >> station.act_workshops;
+            cout << "Number of workshops: " << station.act_workshops << endl;
+            fin >> station.efficiency;
+            cout << "Efficiency: " << station.efficiency << endl;
+        }
+        else {
+            cout << "There is no data about the station in the file" << endl;
+        }*/
+        break;
+    }
+}
+
+void from_file_station(ifstream& fin, Station& station) {
+    string line;
+    int k = 0;
+    while (getline(fin, line)) {
+        k++;
+        if (k == 6) {
+            if (line.find("station", 0) == 0) {
+                cout << "The data about the station was read from the file" << endl;
+                cout << "Info about your station: " << endl;
+                getline(fin, station.namecs);
+                cout << "Name: " << station.namecs << endl;
+                fin >> station.workshops;
+                cout << "Number of workshops: " << station.workshops << endl;
+                fin >> station.act_workshops;
+                cout << "Number of working workshops: " << station.act_workshops << endl;
+                fin >> station.efficiency;
+                cout << "Efficiency: " << station.efficiency << endl;
+            }
+            else {
+                cout << "There is no data about the station in the file" << endl;
+            }
+            break;
+        }
+    }
+}
+
 
 int main()
 {
@@ -267,7 +330,13 @@ int main()
         }
         case 7:
         {
-            cout << "slwo" << endl;
+            ifstream fin;
+            fin.open("vivod.txt", ios::in);
+            if (fin.is_open()) {
+                from_file_pipe(fin, pipe0);
+                from_file_station(fin, station0);
+                fin.close();
+            }
             break;
         }
         case 8:
