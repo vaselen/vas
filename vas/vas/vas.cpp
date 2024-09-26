@@ -92,7 +92,7 @@ void print_pipe(Pipe& new_pipe)
     cout << endl << "Info about your pipe:" << endl;
     if (new_pipe.namepipe == "None")
     {
-        cout << "No pipe available!\n";
+        cout << "No pipe available\n";
     }
     else
     {
@@ -106,7 +106,7 @@ void pipe_repair(Pipe& new_pipe)
 {
     if (new_pipe.namepipe == "None")
     {
-        cout << "No pipe available!\n";
+        cout << "No pipe available\n";
     }
     else
     {
@@ -132,7 +132,7 @@ void station_create(Station& new_station)
     {
         cin.clear();
         cin.ignore(100000, '\n');
-        cout << "\nThe number of working workshops must be >=0 and <= the number of workshops:\n";
+        cout << "\nThe number of working workshops must be >=0 and <= the number of workshops (" << new_station.workshops <<")" << endl;
         cin >> new_station.act_workshops;
     }
 
@@ -145,7 +145,7 @@ void print_station(Station& new_station)
     cout << endl << "Info about your station:" << endl;
     if (new_station.namecs == "None")
     {
-        cout << "No station available!\n";
+        cout << "No station available\n";
     }
     else
     {
@@ -159,7 +159,7 @@ void station_repair(Station& new_station)
 {
     if (new_station.namecs == "None")
     {
-        cout << "No station available!\n";
+        cout << "No station available\n";
     }
     else
     {
@@ -169,7 +169,7 @@ void station_repair(Station& new_station)
         {
             cin.clear();
             cin.ignore(100000, '\n');
-            cout << "\nThe number of working workshops must be >=0 and <= the number of workshops:\n";
+            cout << "\nThe number of working workshops must be >=0 and <= the number of workshops (" << new_station.workshops << ")" << endl;
             cin >> new_station.act_workshops;
         }
         print_station(new_station);
@@ -205,44 +205,42 @@ void in_file_station(ofstream& fout, const Station& station) {
 }
 
 void from_file_pipe(ifstream& fin, Pipe& pipe) {
-        cout << "The data about the pipe was read from the file" << endl;
-        cout << "Info about your pipe: " << endl;
-        getline(fin, pipe.namepipe);
-        cout << "Name: " << pipe.namepipe << endl;
-        fin >> pipe.length;
-        cout << "Length:" << pipe.length << endl;
-        fin >> pipe.diameter;
-        cout << "Diameter:" << pipe.diameter << endl;
-        fin >> pipe.repair;
-        cout << "Repair:" << pipe.repair << endl;
+    cout << "The data about the pipe was read from the file" << endl;
+    cout << "Info about your pipe: " << endl;
+    getline(fin >> ws, pipe.namepipe);
+    cout << "Name: " << pipe.namepipe << endl;
+    fin >> pipe.length;
+    cout << "Length:" << pipe.length << endl;
+    fin >> pipe.diameter;
+    cout << "Diameter:" << pipe.diameter << endl;
+    fin >> pipe.repair;
+    cout << "Repair:" << pipe.repair << endl;
 }
 
 void from_file_station(ifstream& fin, Station& station) {
-
-        cout << "The data about the station was read from the file" << endl;
-        cout << "Info about your station: " << endl;
-        getline(fin, station.namecs);
-        cout << "Name: " << station.namecs << endl;
-        fin >> station.workshops;
-        cout << "Number of workshops: " << station.workshops << endl;
-        fin >> station.act_workshops;
-        cout << "Number of working workshops: " << station.act_workshops << endl;
-        fin >> station.efficiency;
-        cout << "Efficiency: " << station.efficiency << endl;
-
+    cout << "The data about the station was read from the file" << endl;
+    cout << "Info about your station: " << endl;
+    getline(fin >> ws, station.namecs);
+    cout << "Name: " << station.namecs << endl;
+    fin >> station.workshops;
+    cout << "Number of workshops: " << station.workshops << endl;
+    fin >> station.act_workshops;
+    cout << "Number of working workshops: " << station.act_workshops << endl;
+    fin >> station.efficiency;
+    cout << "Efficiency: " << station.efficiency << endl;
 }
 
-/*void all_from_file(ifstream& fin, Pipe& pipe, Station& station) {
+void all_from_file(ifstream& fin, Pipe& pipe, Station& station) {
     string line;
-    while (getline(fin, line)) {
+    while (getline(fin >> ws, line)) {
         if (line == "pipe") {
-            
+            from_file_pipe(fin, pipe);
         }
-        else {
-            cout << "There is no data about the pipe in the file" << endl;
+        else if (line == "station") {
+            from_file_station(fin, station);
         }
     }
-}*/
+}
 
 int main()
 {
@@ -299,7 +297,7 @@ int main()
             station_repair(station0);
             break;
         }
-        case 6:
+        case 6: //writing to the file
         {
             ofstream fout;
             fout.open("vivod.txt", ios::out);
@@ -310,19 +308,17 @@ int main()
             }
             break;
         }
-        case 7:
+        case 7: //reading from the file
         {
             ifstream fin;
             fin.open("vivod.txt", ios::in);
             if (fin.is_open()) {
-                string line;
-                while (getline(fin>>ws, line)) {
-                    if (line == "pipe") {
-                        from_file_pipe(fin, pipe0);
-                    }
-                    else if (line == "station") {
-                        from_file_station(fin, station0);
-                    }
+                all_from_file(fin, pipe0, station0);
+                if (pipe0.namepipe == "None") {
+                    cout << "There is no data about the pipe in the file\n";
+                }
+                if (station0.namecs == "None") {
+                    cout << "There is no data about the station in the file\n";
                 }
                 fin.close();
             }
