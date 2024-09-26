@@ -181,7 +181,6 @@ void in_file_pipe(ofstream& fout, const Pipe& pipe) {
         cout << "There is no data about the pipe to write to the file\n";
     }
     else {
-        fout << "pipe" << endl;
         fout << pipe.namepipe << endl;
         fout << pipe.length << endl;
         fout << pipe.diameter << endl;
@@ -195,7 +194,6 @@ void in_file_station(ofstream& fout, const Station& station) {
         cout << "There is no data about the station to write to the file\n";
     }
     else {
-        fout << "station" << endl;
         fout << station.namecs << endl;
         fout << station.workshops << endl;
         fout << station.act_workshops << endl;
