@@ -110,8 +110,8 @@ void pipe_repair(Pipe& new_pipe)
     }
     else
     {
-        cout << "Enter the new repair status: ";
-        check_bool(new_pipe.repair);
+        new_pipe.repair = (!new_pipe.repair);
+        cout << "The repair status has been changed\n";
         print_pipe(new_pipe);
     }
 }
