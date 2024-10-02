@@ -19,8 +19,28 @@ struct Station
     int efficiency;
 };
 
-int check_int(int& i)
-{
+int check_int(int min, int max) {
+    int i;
+    while ((cin >> i).fail() || cin.peek() != '\n' || i<min || i>max)
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "Enter the int value in range ["<<min <<"; "<<max<<"]"<<endl;
+    }
+    return i;
+}
+
+double check_double(int min, int max) {
+    double i;
+    while ((cin >> i).fail() || cin.peek() != '\n' || i<min || i>max)
+    {
+        cin.clear();
+        cin.ignore(100000, '\n');
+        cout << "Entet the double value in range [" <<min << "; " << max << "]" << endl;
+    }
+    return i;
+}
+/* {
     cin >> i;
     while (cin.fail() || cin.peek() != '\n' || i <= 0)
     {
@@ -44,7 +64,7 @@ double check_double(double& d)
     return d;
 }
 
-bool check_bool(bool& b)
+/*bool check_bool(bool& b)
 {
     cin >> b;
     while (cin.fail() || cin.peek() != '\n')
@@ -68,7 +88,7 @@ int check_int_efficiency(int& e)
         cin >> e;
     }
     return e;
-}
+}*/
 
 void pipe_create(Pipe& new_pipe)
 {
@@ -78,13 +98,13 @@ void pipe_create(Pipe& new_pipe)
     getline(cin, new_pipe.namepipe);
 
     cout << "Enter the length of the pipe: ";
-    check_double(new_pipe.length);
+    new_pipe.length=check_double(0,10000);
 
     cout << "Enter the pipe diameter: ";
-    check_int(new_pipe.diameter);
+    new_pipe.diameter = check_int(0, 10000);
 
     cout << "Enter the repair status: ";
-    check_bool(new_pipe.repair);
+    new_pipe.repair = check_int(0, 1);
 }
 
 void print_pipe(Pipe& new_pipe)
@@ -124,20 +144,13 @@ void station_create(Station& new_station)
     getline(cin, new_station.namecs);
 
     cout << "Enter the number of workshops: ";
-    check_int(new_station.workshops);
+    new_station.workshops = check_int(0, 10000);
 
     cout << "Enter the number of working workshops: ";
-    cin >> new_station.act_workshops;
-    while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops < 0  || new_station.act_workshops > new_station.workshops)
-    {
-        cin.clear();
-        cin.ignore(100000, '\n');
-        cout << "\nThe number of working workshops must be >=0 and <= the number of workshops (" << new_station.workshops <<")" << endl;
-        cin >> new_station.act_workshops;
-    }
+    new_station.act_workshops = check_int(0, new_station.workshops);
 
     cout << "Enter the station efficiency as a %: ";
-    check_int_efficiency(new_station.efficiency);
+    new_station.efficiency = check_int(0, 100);
 }
 
 void print_station(Station& new_station)
@@ -257,14 +270,15 @@ int main()
             << "6. Save" << endl
             << "7. Download" << endl
             << "8. Exit " << endl;
-        cin >> command;
-        if (cin.fail() || command < 1 || command > 8)
+        /*cin >> command;*/
+        command = check_int(1, 8);
+        /*if (cin.fail() || command < 1 || command > 8)
         {
             cout << "There is no such command" << endl;
             cin.clear();
             cin.ignore(1000, '\n');
             continue;
-        }
+        }*/
 
 
         switch (command)
