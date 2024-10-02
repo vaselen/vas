@@ -5,18 +5,18 @@ using namespace std;
 
 struct Pipe 
 {
-    string namepipe="None";
-    double length=0;
-    int diameter=0;
-    bool repair = false;
+    string namepipe;
+    double length;
+    int diameter;
+    bool repair;
 };
 
 struct Station
 {
-    string namecs="None";
-    int workshops=0;
-    int act_workshops=0;
-    int efficiency=0;
+    string namecs;
+    int workshops;
+    int act_workshops;
+    int efficiency;
 };
 
 int check_int(int& i)
@@ -90,7 +90,7 @@ void pipe_create(Pipe& new_pipe)
 void print_pipe(Pipe& new_pipe)
 {
     cout << endl << "Info about your pipe:" << endl;
-    if (new_pipe.namepipe == "None")
+    if (new_pipe.namepipe == "")
     {
         cout << "No pipe available\n";
     }
@@ -104,7 +104,7 @@ void print_pipe(Pipe& new_pipe)
 
 void pipe_repair(Pipe& new_pipe)
 {
-    if (new_pipe.namepipe == "None")
+    if (new_pipe.namepipe == "")
     {
         cout << "No pipe available\n";
     }
@@ -143,7 +143,7 @@ void station_create(Station& new_station)
 void print_station(Station& new_station)
 {
     cout << endl << "Info about your station:" << endl;
-    if (new_station.namecs == "None")
+    if (new_station.namecs == "")
     {
         cout << "No station available\n";
     }
@@ -157,13 +157,13 @@ void print_station(Station& new_station)
 
 void station_repair(Station& new_station)
 {
-    if (new_station.namecs == "None")
+    if (new_station.namecs == "")
     {
         cout << "No station available\n";
     }
     else
     {
-        cout << "Enter the new number of working workshops: ";
+        cout << "Enter the new number of working workshops (<="<<new_station.workshops<<"): ";
         cin >> new_station.act_workshops;
         while (cin.fail() || cin.peek() != '\n' || new_station.act_workshops < 0 || new_station.act_workshops > new_station.workshops)
         {
@@ -177,7 +177,7 @@ void station_repair(Station& new_station)
 }
 
 void in_file_pipe(ofstream& fout, const Pipe& pipe) {
-    if (pipe.namepipe == "None") {
+    if (pipe.namepipe == "") {
         cout << "There is no data about the pipe to write to the file\n";
     }
     else {
@@ -191,7 +191,7 @@ void in_file_pipe(ofstream& fout, const Pipe& pipe) {
 }
 
 void in_file_station(ofstream& fout, const Station& station) {
-    if (station.namecs == "None") {
+    if (station.namecs == "") {
         cout << "There is no data about the station to write to the file\n";
     }
     else {
@@ -314,10 +314,10 @@ int main()
             fin.open("vivod.txt", ios::in);
             if (fin.is_open()) {
                 all_from_file(fin, pipe0, station0);
-                if (pipe0.namepipe == "None") {
+                if (pipe0.namepipe == "") {
                     cout << "There is no data about the pipe in the file\n";
                 }
-                if (station0.namecs == "None") {
+                if (station0.namecs == "") {
                     cout << "There is no data about the station in the file\n";
                 }
                 fin.close();
