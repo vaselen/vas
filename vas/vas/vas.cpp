@@ -45,11 +45,10 @@ void pipe_create(Pipe& new_pipe)
 {
     cout << endl << "Adding a new pipe:" << endl;
     cout << "Enter the name of the pipe: ";
-    cin >> ws;
-    getline(cin, new_pipe.namepipe);
+    getline(cin>>ws, new_pipe.namepipe);
 
     cout << "Enter the length of the pipe: ";
-    new_pipe.length=check_double(1,10000);
+    new_pipe.length=check_double(0.0001,10000);
 
     cout << "Enter the pipe diameter: ";
     new_pipe.diameter = check_int(1, 10000);
@@ -91,8 +90,7 @@ void station_create(Station& new_station)
 {
     cout << endl << "Adding a new station:" << endl;
     cout << "Enter the name of the station: ";
-    cin >> ws;
-    getline(cin, new_station.namecs);
+    getline(cin>>ws, new_station.namecs);
 
     cout << "Enter the number of workshops: ";
     new_station.workshops = check_int(0, 10000);
@@ -114,8 +112,8 @@ void print_station(Station& new_station)
     else
     {
         cout << "Name: " << new_station.namecs << "\tNumber of workshops: " << new_station.workshops
-
-            << "\tNumber of working workshops: " << new_station.act_workshops << "\tEfficiency: " << new_station.efficiency << "%" << endl;
+            << "\tNumber of working workshops: " << new_station.act_workshops <<
+            "\tEfficiency: " << new_station.efficiency << "%" << endl;
     }
 }
 
@@ -162,29 +160,19 @@ void in_file_station(ofstream& fout, const Station& station) {
 }
 
 void from_file_pipe(ifstream& fin, Pipe& pipe) {
-    cout << "The data about the pipe was read from the file" << endl;
-    cout << "Info about your pipe: " << endl;
     getline(fin >> ws, pipe.namepipe);
-    cout << "Name: " << pipe.namepipe << endl;
     fin >> pipe.length;
-    cout << "Length:" << pipe.length << endl;
     fin >> pipe.diameter;
-    cout << "Diameter:" << pipe.diameter << endl;
     fin >> pipe.repair;
-    cout << "Repair:" << pipe.repair << endl;
+    cout << "The data about the pipe was read from the file" << endl;
 }
 
 void from_file_station(ifstream& fin, Station& station) {
-    cout << "The data about the station was read from the file" << endl;
-    cout << "Info about your station: " << endl;
     getline(fin >> ws, station.namecs);
-    cout << "Name: " << station.namecs << endl;
     fin >> station.workshops;
-    cout << "Number of workshops: " << station.workshops << endl;
     fin >> station.act_workshops;
-    cout << "Number of working workshops: " << station.act_workshops << endl;
     fin >> station.efficiency;
-    cout << "Efficiency: " << station.efficiency << endl;
+    cout << "The data about the station was read from the file" << endl;
 }
 
 void all_from_file(ifstream& fin, Pipe& pipe, Station& station) {
@@ -192,9 +180,11 @@ void all_from_file(ifstream& fin, Pipe& pipe, Station& station) {
     while (getline(fin >> ws, line)) {
         if (line == "pipe") {
             from_file_pipe(fin, pipe);
+            print_pipe(pipe);
         }
         else if (line == "station") {
             from_file_station(fin, station);
+            print_station(station);
         }
     }
 }
